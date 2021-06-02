@@ -9,6 +9,7 @@ TagManager:
   - Alien
   - ShipZone
   - AlienBullet
+  - AudioController
   layers:
   - Default
   - TransparentFX
@@ -45,4 +46,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Asteroids
+    uniqueID: 3077274333
+    locked: 0
+  - name: Alien
+    uniqueID: 1923509347
+    locked: 0
+  - name: Ship
+    uniqueID: 2542287905
     locked: 0

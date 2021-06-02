@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour
 
     private float alienSpawnTimer;
     private GameObject alien;
+    private AudioController audio;
 
 
 
@@ -33,6 +34,8 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
+        audio = GameObject.FindGameObjectsWithTag("AudioController")[0].GetComponent<AudioController>();
+
         boxCol = gameObject.GetComponent<BoxCollider2D>();
         Transform cubeTrans = boxCol.GetComponent<Transform>();
         cubeCenter = cubeTrans.position;
@@ -58,6 +61,7 @@ public class GameController : MonoBehaviour
         score = 0;
         aliens = 0;
         alienSpawnTimer = 5.0f;
+
     }
 
     // Update is called once per frame
@@ -142,9 +146,10 @@ public class GameController : MonoBehaviour
 
     private void AlienSpawn()
     {
+        audio.PlaySoundFromSounds("alert_alarm");
 
         var obj = Instantiate(Resources.Load<GameObject>("Prefabs/Alien"), GetRandomPositionAlien(), transform.rotation);
-        obj.transform.localScale *= Vector2.one * UnityEngine.Random.Range(0.7f, 1);
+        obj.transform.localScale *= Vector2.one * UnityEngine.Random.Range(0.6f, 0.8f);
 
         alien = obj;
     }
@@ -162,6 +167,7 @@ public class GameController : MonoBehaviour
 
     public void SpawnShip()
     {
+        
         var obj = Instantiate(Resources.Load<GameObject>("Prefabs/Ship"), new Vector3(0, 0, 0), transform.rotation);
         obj.GetComponent<Ship>().SetNonTarget();
         //ship = GameObject.FindGameObjectsWithTag("Player")[0];

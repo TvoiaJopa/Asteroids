@@ -13,7 +13,7 @@ public class Ship : MonoBehaviour
     //[SerializeField] private GameObject ball;
     [SerializeField] private GameObject fireball;
     private GameObject ship;
-    private GameObject gameController;
+    private GameController gameController;
     private bool shipNonTarget;
     private Animator animator;
     [SerializeField] private Animator fireAnimator;
@@ -23,11 +23,13 @@ public class Ship : MonoBehaviour
     private float t = 0.0f;
     private float ship_timer = 0.0f;
     private Collider2D m_Collider;
+    private AudioController audio;
 
 
     private void Awake()
     {
-        gameController = GameObject.FindGameObjectsWithTag("GameController")[0];
+        gameController = GameObject.FindGameObjectsWithTag("GameController")[0].GetComponent<GameController>();
+        audio = GameObject.FindGameObjectsWithTag("AudioController")[0].GetComponent<AudioController>();
     }
 
     // Start is called before the first frame update
@@ -59,6 +61,7 @@ public class Ship : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            audio.PlaySoundFromSounds("ship_shot");
             GameObject ball = Instantiate(fireball) as GameObject;
             ball.transform.position =
                 transform.TransformPoint(Vector3.up * 2.5f);
@@ -137,6 +140,7 @@ public class Ship : MonoBehaviour
             rb2D.AddForce(transform.up * thrust);
 
             fireAnimator.SetBool("FireOn", true);
+            audio.PlayShipSound();
 
         }
         else if (rb2D.velocity.magnitude > 0.01)
@@ -144,6 +148,9 @@ public class Ship : MonoBehaviour
 
             rb2D.velocity = rb2D.velocity * 0.99f;
             fireAnimator.SetBool("FireOn", false);
+
+            audio.NoPlayShipSound();
+
 
         }
     }
@@ -161,10 +168,14 @@ public class Ship : MonoBehaviour
     {
         if (gameController != null)
         {
-            gameController.GetComponent<GameController>().MinusLife(1);
+            gameController.MinusLife(1);
 
         }
+        if(audio!= null)
+        {
+            audio.PlaySoundFromSounds("explosion_ship");
 
+        }
         for (int i = 0; i < 3; i++)
         {
 

@@ -11,10 +11,14 @@ public class Asteroid : MonoBehaviour
     private enum Trigger { Bullet, Others }
     [SerializeField] private Asteroids asteroid;
     [SerializeField] private GameController gameController;
+    private AudioController audio;
+
 
     private void Awake()
     {
         gameController = GameObject.FindGameObjectsWithTag("GameController")[0].GetComponent<GameController>();
+        audio = GameObject.FindGameObjectsWithTag("AudioController")[0].GetComponent<AudioController>();
+
         gameController.AddAsteroid();
     }
 
@@ -132,7 +136,10 @@ public class Asteroid : MonoBehaviour
 
     private void OnDestroy()
     {
-       
+        if (audio != null)
+        {
+            audio.PlaySoundFromSounds("explosion_asteroid");
 
+        }
     }
 }

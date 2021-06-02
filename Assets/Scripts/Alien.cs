@@ -13,11 +13,17 @@ public class Alien : MonoBehaviour
     [SerializeField] private float little_timer;
     [SerializeField] private float fire_timer;
     private GameController gameController;
+    private AudioController audio;
     private GameObject ship;
+    private Vector2 firstMove;
+    private float first_timer;
+
 
     private void Awake()
     {
         gameController = GameObject.FindGameObjectsWithTag("GameController")[0].GetComponent<GameController>();
+        audio = GameObject.FindGameObjectsWithTag("AudioController")[0].GetComponent<AudioController>();
+
     }
 
     // Start is called before the first frame update
@@ -31,6 +37,17 @@ public class Alien : MonoBehaviour
         timer_1 = 2f;
         little_timer = 1;
         fire_timer = 1f;
+        first_timer = 5f;
+
+        if (gameObject.transform.position.x > 0)
+        {
+            firstMove = new Vector2(-1f,0);
+        }
+        else
+        {
+            firstMove = new Vector2(1f, 0);
+
+        }
     }
 
     // Update is called once per frame
@@ -64,7 +81,13 @@ public class Alien : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (timer_1 > 0)
+        if (first_timer > 0)
+        {
+
+            rb2D.MovePosition(rb2D.position + firstMove * Time.fixedDeltaTime);
+            first_timer -= Time.deltaTime;
+        }
+        else
         {
             if (little_timer > 0)
             {
@@ -77,12 +100,6 @@ public class Alien : MonoBehaviour
                 velocity = Movment[Random.Range(0, Movment.Count)];
                 little_timer = 1f;
             }
-
-            timer_1 -= Time.deltaTime;
-        }
-        else
-        {
-            timer_1 = 2f;
         }
     }
 
@@ -113,6 +130,7 @@ public class Alien : MonoBehaviour
 
     public void Fire()
     {
+        audio.PlaySoundFromSounds("alien_shot");
         GameObject ball = Instantiate(Resources.Load<GameObject>("Prefabs/Alien_Fire")) as GameObject;
         ball.transform.position =
             transform.TransformPoint(ball.transform.position);
@@ -122,6 +140,7 @@ public class Alien : MonoBehaviour
 
     private void OnDestroy()
     {
+        audio.PlaySoundFromSounds("explosion_alien");
 
         for (int i = 0; i < 4; i++)
         {
