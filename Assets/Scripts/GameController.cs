@@ -6,17 +6,15 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     [SerializeField] private int life;
-    [SerializeField] private int lifeOld;
     [SerializeField] private int score;
     [SerializeField] private int asteroids;
-    [SerializeField] private int aliens;
     public GameCondition gameCon;
-    [SerializeField] private GameObject ship;
-    [SerializeField] BoxCollider2D boxCol;
+    private GameObject ship;
+    BoxCollider2D boxCol;
     private Vector2 cubeSize;
     private Vector2 cubeCenter;
     private float asteroidRecoilTimer = 0f;
-    private float recoilShipSpawn = 1f;
+    private float recoilShipSpawn = 0f;
 
 
     public List<GameObject> colAliens;
@@ -25,7 +23,7 @@ public class GameController : MonoBehaviour
 
     private float alienSpawnTimer;
     private GameObject alien;
-    private AudioController audio;
+    private AudioController audioController;
 
 
 
@@ -34,43 +32,29 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
-        audio = GameObject.FindGameObjectsWithTag("AudioController")[0].GetComponent<AudioController>();
-
+        audioController = GameObject.FindGameObjectsWithTag("AudioController")[0].GetComponent<AudioController>();
         boxCol = gameObject.GetComponent<BoxCollider2D>();
         Transform cubeTrans = boxCol.GetComponent<Transform>();
-        cubeCenter = cubeTrans.position;
 
+        //Get helpers for asteroid's spawn position
+        cubeCenter = cubeTrans.position;
         // Multiply by scale because it does affect the size of the collider
         cubeSize.x = cubeTrans.localScale.x * boxCol.size.x;
         cubeSize.y = cubeTrans.localScale.y * boxCol.size.y;
     }
-    // Start is called before the first frame update
+
     void Start()
     {
-        //SpawnShip();
-
         gameCon = GameCondition.MainMenu;
-
-        /*for (int i = 0; i < 4; i++)
-        {
-            AsteroidSpawn();
-        }*/
-
         life = 3;
-        lifeOld = life;
         score = 0;
-        aliens = 0;
         alienSpawnTimer = 5.0f;
-
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (gameCon == GameCondition.Game)
         {
-
-
             if (asteroids == 0)
             {
                 if (asteroidRecoilTimer > 0)
@@ -84,23 +68,21 @@ public class GameController : MonoBehaviour
                         AsteroidSpawn();
                         asteroidRecoilTimer = 2.0f;
                     }
-
                 }
-
             }
-
-            if (life != lifeOld)
-            {
-                SpawnShip();
-                lifeOld = life;
-
-            }
+            
 
             if (ship == null)
             {
-
-                SpawnShip();
-
+                if (recoilShipSpawn > 0)
+                {
+                    recoilShipSpawn -= Time.deltaTime;
+                }
+                else
+                {
+                    SpawnShip();
+                    recoilShipSpawn = 2f;
+                }
             }
 
 
@@ -118,8 +100,6 @@ public class GameController : MonoBehaviour
                         AlienSpawn();
                     }
                     alienSpawnTimer = 5.0f;
-
-
                 }
             }
         }
@@ -127,7 +107,6 @@ public class GameController : MonoBehaviour
 
     public void GameOver()
     {
-
         gameCon = GameCondition.Restart;
     }
 
@@ -138,45 +117,30 @@ public class GameController : MonoBehaviour
             AsteroidSpawn();
             asteroidRecoilTimer = 2.0f;
         }
-
         life = 3;
         score = 0;
-
     }
 
     private void AlienSpawn()
     {
-        audio.PlaySoundFromSounds("alert_alarm");
-
+        audioController.PlaySoundFromSounds("alert_alarm");
         var obj = Instantiate(Resources.Load<GameObject>("Prefabs/Alien"), GetRandomPositionAlien(), transform.rotation);
         obj.transform.localScale *= Vector2.one * UnityEngine.Random.Range(0.6f, 0.8f);
-
         alien = obj;
     }
 
     private void AsteroidSpawn()
     {
-        /*   Vector3 position;
-               var spawnBox = transform.localScale;
-               position = new Vector3(UnityEngine.Random.value * spawnBox.x, UnityEngine.Random.value * spawnBox.y, 0);
-               position = transform.TransformPoint(position - spawnBox);*/
-
-
         var obj = Instantiate(Resources.Load<GameObject>("Prefabs/Asteroid_0"), GetRandomPosition(), transform.rotation);
     }
 
     public void SpawnShip()
     {
-        
         var obj = Instantiate(Resources.Load<GameObject>("Prefabs/Ship"), new Vector3(0, 0, 0), transform.rotation);
         obj.GetComponent<Ship>().SetNonTarget();
-        //ship = GameObject.FindGameObjectsWithTag("Player")[0];
         ship = obj;
-
-
-
-
     }
+
     public void AddAsteroid()
     {
         asteroids++;
@@ -241,8 +205,13 @@ public class GameController : MonoBehaviour
 
     public Vector2 GetShipPosition()
     {
-        Vector2 shipPos;
-        shipPos = new Vector2(ship.transform.position.x, ship.transform.position.y);
+        Vector2 shipPos = new Vector2(0.0f, 0.0f);
+
+        if (ship!= null)
+        {
+            shipPos = new Vector2(ship.transform.position.x, ship.transform.position.y);
+        }
+        
         return shipPos;
     }
 
@@ -255,7 +224,5 @@ public class GameController : MonoBehaviour
     {
         gameCon = game;
     }
-
-
 
 }

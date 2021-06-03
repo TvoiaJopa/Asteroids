@@ -9,22 +9,17 @@ public class AlienFire : MonoBehaviour
     [SerializeField] private float lifeTime = 0.1f;
     [SerializeField] private Vector2 targetPosition;
 
-    // Start is called before the first frame update
     void Start()
     {
         //targetPosition = new Vector2(0, 0);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //rb2D.AddForce(transform.up * thrust, ForceMode2D.Impulse);
-        //gameObject.GetComponent<Rigidbody2D>().MovePosition(gameObject.GetComponent<Rigidbody2D>().position + targetPosition * Time.fixedDeltaTime * thrust);
-
         float step = thrust * Time.deltaTime/2;
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
 
-
+        //Timer for destroy fire
         if (lifeTime > 0)
         {
             lifeTime -= Time.deltaTime;

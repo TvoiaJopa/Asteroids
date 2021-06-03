@@ -11,20 +11,24 @@ public class Asteroid : MonoBehaviour
     private enum Trigger { Bullet, Others }
     [SerializeField] private Asteroids asteroid;
     [SerializeField] private GameController gameController;
-    private AudioController audio;
+    private AudioController audioController;
+    private SpriteRenderer spritRenderer;
 
 
     private void Awake()
     {
         gameController = GameObject.FindGameObjectsWithTag("GameController")[0].GetComponent<GameController>();
-        audio = GameObject.FindGameObjectsWithTag("AudioController")[0].GetComponent<AudioController>();
+        audioController = GameObject.FindGameObjectsWithTag("AudioController")[0].GetComponent<AudioController>();
+        spritRenderer = gameObject.GetComponent<SpriteRenderer>();
 
         gameController.AddAsteroid();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
+        spritRenderer.sprite = Resources.Load<Sprite>("Images/asteroid_" + Random.Range(1,4));
+
+
         gameObject.transform.localScale *= Vector2.one * Random.Range(0.8f, 1.3f);
 
         if (asteroid == Asteroids.Big)
@@ -56,9 +60,7 @@ public class Asteroid : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        //gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(angel, angel2) * thrust);
         gameObject.GetComponent<Rigidbody2D>().MovePosition(gameObject.GetComponent<Rigidbody2D>().position + new Vector2(angel, angel2) * Time.fixedDeltaTime);
-
     }
 
     public void OnTriggerEnter2D(Collider2D other)
@@ -136,9 +138,9 @@ public class Asteroid : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (audio != null)
+        if (audioController != null)
         {
-            audio.PlaySoundFromSounds("explosion_asteroid");
+            audioController.PlaySoundFromSounds("explosion_asteroid");
 
         }
     }

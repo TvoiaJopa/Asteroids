@@ -308,7 +308,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6678228803239391966}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -363,8 +363,7 @@ MonoBehaviour:
   speed: 4
   rb2D: {fileID: 0}
   thrust: 7
-  forceSpeed: 0
-  fireball: {fileID: 8103384081373020265, guid: 23325bd255733fb49a528bf84af96877,
+  fireball: {fileID: 7433399486121899142, guid: 5513f76f9f4fbe242b306b67eac2eab2,
     type: 3}
   fireAnimator: {fileID: 6357552299932571732}
 --- !u!95 &1262691258714813524

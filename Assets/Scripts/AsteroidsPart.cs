@@ -8,17 +8,13 @@ public class AsteroidsPart : MonoBehaviour
     [SerializeField]private float timer = 1.5f;
     private float timerChangePos;
 
-    // Start is called before the first frame update
     void Start()
     {
         h = Random.Range(-360, 360);
         transform.rotation = transform.rotation * Quaternion.Euler(0, 0, h);
         timerChangePos = 5.0F;
-
-
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (timerChangePos > 0)

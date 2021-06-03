@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Ship : MonoBehaviour
 {
-    private Camera camera;
+    private Camera _camera;
     private Vector3 mousePosition;
     public float speed = 100;
     public Rigidbody2D rb2D;
     [SerializeField] private float thrust = 1f;
-    [SerializeField] private bool forceSpeed;
     //[SerializeField] private GameObject ball;
     [SerializeField] private GameObject fireball;
     private GameObject ship;
@@ -18,56 +17,40 @@ public class Ship : MonoBehaviour
     private Animator animator;
     [SerializeField] private Animator fireAnimator;
 
-
-    private bool moving = false;
     private float t = 0.0f;
     private float ship_timer = 0.0f;
     private Collider2D m_Collider;
-    private AudioController audio;
+    private AudioController audioController;
 
 
     private void Awake()
     {
         gameController = GameObject.FindGameObjectsWithTag("GameController")[0].GetComponent<GameController>();
-        audio = GameObject.FindGameObjectsWithTag("AudioController")[0].GetComponent<AudioController>();
+        audioController = GameObject.FindGameObjectsWithTag("AudioController")[0].GetComponent<AudioController>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
-        camera = FindObjectOfType<Camera>();
+        _camera = FindObjectOfType<Camera>();
         rb2D = gameObject.GetComponent<Rigidbody2D>();
         m_Collider = gameObject.GetComponent<Collider2D>();
-        forceSpeed = false;
         shipNonTarget = false;
         SetNonTarget();
-
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            forceSpeed = true;
-        }
-        else
-        {
-            forceSpeed = false;
-
-        }
+       
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            audio.PlaySoundFromSounds("ship_shot");
+            audioController.PlaySoundFromSounds("ship_shot");
             GameObject ball = Instantiate(fireball) as GameObject;
-            ball.transform.position =
-                transform.TransformPoint(Vector3.up * 2.5f);
+            ball.transform.position = transform.TransformPoint(Vector3.up * 2.5f);
             ball.transform.rotation = transform.rotation;
-            //ball.transform.SetParent(this.transform);
-
         }
 
         if (shipNonTarget)
@@ -83,8 +66,6 @@ public class Ship : MonoBehaviour
                 shipNonTarget = false;
                 animator.SetBool("NonTarget", false);
                 m_Collider.enabled = true;
-
-
             }
         }
 
@@ -99,8 +80,6 @@ public class Ship : MonoBehaviour
         Vector3 tempVect = new Vector3(0, h, 0);
 
 
-
-
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
         {
             transform.rotation = transform.rotation * Quaternion.Euler(transform.rotation.x, transform.rotation.y, -h * speed);
@@ -109,49 +88,32 @@ public class Ship : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             fireAnimator.SetBool("Left", true);
-
         }
         else
         {
             fireAnimator.SetBool("Left", false);
-
         }
 
         if (Input.GetKey(KeyCode.D))
         {
             fireAnimator.SetBool("Right", true);
-
         }
         else
         {
             fireAnimator.SetBool("Right", false);
-
         }
-
-
-
-
-
-
 
         if (Input.GetKey(KeyCode.W))
         {
-            //rb2D.AddForce(transform.position * thrust, ForceMode2D.Impulse);
             rb2D.AddForce(transform.up * thrust);
-
             fireAnimator.SetBool("FireOn", true);
-            audio.PlayShipSound();
-
+            audioController.PlayShipSound(true);
         }
         else if (rb2D.velocity.magnitude > 0.01)
         {
-
             rb2D.velocity = rb2D.velocity * 0.99f;
             fireAnimator.SetBool("FireOn", false);
-
-            audio.NoPlayShipSound();
-
-
+            audioController.PlayShipSound(false);
         }
     }
 
@@ -159,7 +121,6 @@ public class Ship : MonoBehaviour
     {
         if (other.tag == "Asteroid" || other.tag == "Alien" || other.tag == "AlienBullet")
         {
-           
             Destroy(gameObject);
         }
     }
@@ -171,16 +132,15 @@ public class Ship : MonoBehaviour
             gameController.MinusLife(1);
 
         }
-        if(audio!= null)
+        if(audioController!= null)
         {
-            audio.PlaySoundFromSounds("explosion_ship");
-
+            audioController.PlaySoundFromSounds("explosion_ship");
+            audioController.PlayShipSound(false);
         }
         for (int i = 0; i < 3; i++)
         {
-
-                GameObject part = Instantiate(Resources.Load<GameObject>("Prefabs/ship_part_" + i), gameObject.transform.position, gameObject.transform.rotation);
-                part.transform.localScale *= Vector2.one * Random.Range(1.5f, 2.5f);
+            GameObject part = Instantiate(Resources.Load<GameObject>("Prefabs/ship_part_" + i), gameObject.transform.position, gameObject.transform.rotation);
+            part.transform.localScale *= Vector2.one * Random.Range(1.5f, 2.5f);
         }
     }
 

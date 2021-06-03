@@ -33,6 +33,7 @@ public class UIController : MonoBehaviour
         scoreText.text = "score:" + gameController.GetScore();
         mainScore.text = "score:" + gameController.GetScore();
 
+        //Set condition canvases
         if(gameController.GetGameCon() == GameController.GameCondition.Game)
         {
             Game.SetActive(true);
@@ -40,7 +41,6 @@ public class UIController : MonoBehaviour
             Pause.SetActive(false);
             MainMenu.SetActive(false);
             Time.timeScale = 1f;
-
         }
         else if (gameController.GetGameCon() == GameController.GameCondition.Restart)
         {
@@ -49,7 +49,6 @@ public class UIController : MonoBehaviour
             Pause.SetActive(false);
             MainMenu.SetActive(false);
             Time.timeScale = 1f;
-
         }
         else if (gameController.GetGameCon() == GameController.GameCondition.Pause)
         {
@@ -67,9 +66,7 @@ public class UIController : MonoBehaviour
             Pause.SetActive(false);
             MainMenu.SetActive(true);
             Time.timeScale = 1f;
-
         }
-
     }
 
     public void SetPause()
@@ -90,8 +87,6 @@ public class UIController : MonoBehaviour
 
     public void SetRestart()
     {
-        //gameController.GameRestart();
-        //gameController.SetGameCon(GameController.GameCondition.Game);
         SceneManager.LoadScene(0);
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(0);
     }
