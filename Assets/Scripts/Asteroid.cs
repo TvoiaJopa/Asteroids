@@ -114,17 +114,17 @@ public class Asteroid : MonoBehaviour
         {
             if (asteroid == Asteroids.Big)
             {
-                GameObject part = Instantiate(Resources.Load<GameObject>("Prefabs/AsteroidsPart"), gameObject.transform.position, gameObject.transform.rotation);
+                GameObject part = Instantiate(Resources.Load<GameObject>("Prefabs/Asteroids_Part"), gameObject.transform.position, gameObject.transform.rotation);
                 part.transform.localScale *= Vector2.one * Random.Range(1.5f, 2.5f);
             }
             else if (asteroid == Asteroids.Midle)
             {
-                GameObject part = Instantiate(Resources.Load<GameObject>("Prefabs/AsteroidsPart"), gameObject.transform.position, gameObject.transform.rotation);
+                GameObject part = Instantiate(Resources.Load<GameObject>("Prefabs/Asteroids_Part"), gameObject.transform.position, gameObject.transform.rotation);
                 part.transform.localScale *= Vector2.one * Random.Range(1.2f, 1.7f);
             }
             else if (asteroid == Asteroids.Little)
             {
-                GameObject part = Instantiate(Resources.Load<GameObject>("Prefabs/AsteroidsPart"), gameObject.transform.position, gameObject.transform.rotation);
+                GameObject part = Instantiate(Resources.Load<GameObject>("Prefabs/Asteroids_Part"), gameObject.transform.position, gameObject.transform.rotation);
                 part.transform.localScale *= Vector2.one * Random.Range(0.8f, 1.2f);
             }
 
