@@ -77,9 +77,9 @@ public class AudioController : MonoBehaviour
 	{
 		soundSource.PlayOneShot(clip);
 	}
-	public void PlaySoundFromSounds(string fish_name)
+	public void PlaySoundFromSounds(string name)
 	{
-		soundSource.PlayOneShot(Resources.Load("Sounds/" + fish_name) as AudioClip);
+		soundSource.PlayOneShot(Resources.Load("Sounds/" + name) as AudioClip);
 	}
 
 	public void PlayShipSound(bool play)

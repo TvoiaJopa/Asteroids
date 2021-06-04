@@ -16,11 +16,7 @@ public class GameController : MonoBehaviour
     private float asteroidRecoilTimer = 0f;
     private float recoilShipSpawn = 0f;
 
-
     public List<GameObject> colAliens;
-
-
-
     private float alienSpawnTimer;
     private GameObject alien;
     private AudioController audioController;
@@ -28,7 +24,7 @@ public class GameController : MonoBehaviour
 
 
 
-    public enum GameCondition { Game, Pause, MainMenu, Options, Restart }
+    public enum GameCondition { Game, Pause, MainMenu, Restart }
 
     private void Awake()
     {
@@ -36,9 +32,7 @@ public class GameController : MonoBehaviour
         boxCol = gameObject.GetComponent<BoxCollider2D>();
         Transform cubeTrans = boxCol.GetComponent<Transform>();
 
-        //Get helpers for asteroid's spawn position
         cubeCenter = cubeTrans.position;
-        // Multiply by scale because it does affect the size of the collider
         cubeSize.x = cubeTrans.localScale.x * boxCol.size.x;
         cubeSize.y = cubeTrans.localScale.y * boxCol.size.y;
     }
@@ -181,7 +175,8 @@ public class GameController : MonoBehaviour
     private Vector2 GetRandomPosition()
     {
         Vector2 randomPosition;
-        randomPosition = new Vector2(UnityEngine.Random.Range(-cubeSize.x / 2, cubeSize.x / 2), UnityEngine.Random.Range(-cubeSize.y / 2, cubeSize.y / 2));
+        randomPosition = new Vector2(UnityEngine.Random.Range(-cubeSize.x / 2, cubeSize.x / 2),
+            UnityEngine.Random.Range(-cubeSize.y / 2, cubeSize.y / 2));
         return cubeCenter + randomPosition;
     }
 
