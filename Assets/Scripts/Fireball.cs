@@ -15,7 +15,8 @@ public class Fireball : MonoBehaviour
 
     void Update()
     {
-        gameObject.GetComponent<Rigidbody2D>().MovePosition(gameObject.GetComponent<Rigidbody2D>().position + new Vector2(gameObject.transform.up.x, gameObject.transform.up.y) * Time.fixedDeltaTime * thrust);
+        gameObject.GetComponent<Rigidbody2D>().MovePosition(gameObject.GetComponent<Rigidbody2D>().position +
+            new Vector2(gameObject.transform.up.x, gameObject.transform.up.y) * Time.fixedDeltaTime * thrust);
 
         if (lifeTime > 0)
         {

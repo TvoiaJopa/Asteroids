@@ -127,7 +127,8 @@ public class Alien : MonoBehaviour
         //spawn asteroid's parts
         for (int i = 0; i < 4; i++)
         {
-            GameObject part = Instantiate(Resources.Load<GameObject>("Prefabs/alien_part_" + i), gameObject.transform.position, gameObject.transform.rotation);
+            GameObject part = Instantiate(Resources.Load<GameObject>("Prefabs/alien_part_" + i),
+                gameObject.transform.position, gameObject.transform.rotation);
             part.transform.localScale *= Vector2.one * Random.Range(1.5f, 2.5f);
         }
     }

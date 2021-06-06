@@ -19,11 +19,6 @@ public class AudioController : MonoBehaviour
 	{
 		//Find gameController on Scene
 		gameController = GameObject.FindGameObjectsWithTag("GameController")[0].GetComponent<GameController>();
-
-	}
-	public void Start()
-	{
-
 	}
 
 	public void Update()
@@ -35,14 +30,9 @@ public class AudioController : MonoBehaviour
 			ship.loop = false;
 		}
 
-
 		if (ship_fly)
 		{
-			if (ship.isPlaying)
-			{
-
-			}
-			else
+			if (!ship.isPlaying)
 			{
 				ship.PlayOneShot(Resources.Load("Sounds/" + "ship_gas") as AudioClip);
 				ship.loop = true;
@@ -52,9 +42,7 @@ public class AudioController : MonoBehaviour
 		{
 			ship.Stop();
 			ship.loop = false;
-
 		}
-
 	}
 
 
@@ -63,16 +51,6 @@ public class AudioController : MonoBehaviour
 		get { return AudioListener.volume; }
 		set { AudioListener.volume = value; }
 	}
-
-	public bool soundMute
-	{
-		get { return AudioListener.pause; }
-		set { AudioListener.pause = value; }
-	}
-
-
-
-	// to play 2D sounds that don't have any other source
 	public void PlaySound(AudioClip clip)
 	{
 		soundSource.PlayOneShot(clip);

@@ -4,20 +4,15 @@ using UnityEngine;
 
 public class Ship : MonoBehaviour
 {
-    private Camera _camera;
-    private Vector3 mousePosition;
     public float speed = 100;
     public Rigidbody2D rb2D;
     [SerializeField] private float thrust = 1f;
-    //[SerializeField] private GameObject ball;
     [SerializeField] private GameObject fireball;
-    private GameObject ship;
     private GameController gameController;
     private bool shipNonTarget;
     private Animator animator;
     [SerializeField] private Animator fireAnimator;
 
-    private float t = 0.0f;
     private float ship_timer = 0.0f;
     private Collider2D m_Collider;
     private AudioController audioController;
@@ -33,7 +28,6 @@ public class Ship : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        _camera = FindObjectOfType<Camera>();
         rb2D = gameObject.GetComponent<Rigidbody2D>();
         m_Collider = gameObject.GetComponent<Collider2D>();
         shipNonTarget = false;
@@ -74,15 +68,13 @@ public class Ship : MonoBehaviour
 
     void FixedUpdate()
     {
-        float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
-
         Vector3 tempVect = new Vector3(0, h, 0);
-
 
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
         {
-            transform.rotation = transform.rotation * Quaternion.Euler(transform.rotation.x, transform.rotation.y, -h * speed);
+            transform.rotation = transform.rotation * Quaternion.Euler(transform.rotation.x,
+                transform.rotation.y, -h * speed);
         }
 
         if (Input.GetKey(KeyCode.A))
@@ -139,7 +131,8 @@ public class Ship : MonoBehaviour
         }
         for (int i = 0; i < 3; i++)
         {
-            GameObject part = Instantiate(Resources.Load<GameObject>("Prefabs/ship_part_" + i), gameObject.transform.position, gameObject.transform.rotation);
+            GameObject part = Instantiate(Resources.Load<GameObject>("Prefabs/ship_part_" + i),
+                gameObject.transform.position, gameObject.transform.rotation);
             part.transform.localScale *= Vector2.one * Random.Range(1.5f, 2.5f);
         }
     }

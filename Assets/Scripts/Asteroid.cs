@@ -31,23 +31,21 @@ public class Asteroid : MonoBehaviour
 
         gameObject.transform.localScale *= Vector2.one * Random.Range(0.8f, 1.3f);
 
-        if (asteroid == Asteroids.Big)
+        switch (asteroid)
         {
-            angel = Random.Range(-1.5f, 1.5f);
-            angel2 = Random.Range(-1.5f, 1.5f);
-
+            case Asteroids.Big:
+                angel = Random.Range(-1.5f, 1.5f);
+                angel2 = Random.Range(-1.5f, 1.5f);
+                break;
+            case Asteroids.Midle:
+                angel = Random.Range(-2.2f, 2.2f);
+                angel2 = Random.Range(-2.2f, 2.2f);
+                break;
+            case Asteroids.Little:
+                angel = Random.Range(-2.5f, 2.5f);
+                angel2 = Random.Range(-2.5f, 2.5f);
+                break;
         }
-        else if (asteroid == Asteroids.Midle)
-        {
-            angel = Random.Range(-2.2f, 2.2f);
-            angel2 = Random.Range(-2.2f, 2.2f);
-        }
-        else if (asteroid == Asteroids.Little)
-        {
-            angel = Random.Range(-2.5f, 2.5f);
-            angel2 = Random.Range(-2.5f, 2.5f);
-        }
-
     }
 
     // Update is called once per frame
@@ -70,20 +68,18 @@ public class Asteroid : MonoBehaviour
             Destroy(other.gameObject);
             Vector3 spawnLoc = gameObject.transform.position;
 
-            if (asteroid == Asteroids.Big)
+            switch (asteroid)
             {
-                Instantiate(Resources.Load<GameObject>("Prefabs/Asteroid_1"), spawnLoc, gameObject.transform.rotation);
-                Instantiate(Resources.Load<GameObject>("Prefabs/Asteroid_1"), spawnLoc, gameObject.transform.rotation);
-
-            }
-            else if(asteroid == Asteroids.Midle)
-            {
-                Instantiate(Resources.Load<GameObject>("Prefabs/Asteroid_2"), spawnLoc, gameObject.transform.rotation);
-                Instantiate(Resources.Load<GameObject>("Prefabs/Asteroid_2"), spawnLoc, gameObject.transform.rotation);
-            }
-            else if (asteroid == Asteroids.Little)
-            {
-
+                case Asteroids.Big:
+                    Instantiate(Resources.Load<GameObject>("Prefabs/Asteroid_1"), spawnLoc, gameObject.transform.rotation);
+                    Instantiate(Resources.Load<GameObject>("Prefabs/Asteroid_1"), spawnLoc, gameObject.transform.rotation);
+                    break;
+                case Asteroids.Midle:
+                    Instantiate(Resources.Load<GameObject>("Prefabs/Asteroid_2"), spawnLoc, gameObject.transform.rotation);
+                    Instantiate(Resources.Load<GameObject>("Prefabs/Asteroid_2"), spawnLoc, gameObject.transform.rotation);
+                    break;
+                case Asteroids.Little:
+                    break;
             }
 
             AsteroidEnter(other.tag);
@@ -112,21 +108,24 @@ public class Asteroid : MonoBehaviour
 
         for (int i = 0; i < Random.Range(3, 7); i++)
         {
-            if (asteroid == Asteroids.Big)
+            GameObject part;
+            switch (asteroid)
             {
-                GameObject part = Instantiate(Resources.Load<GameObject>("Prefabs/Asteroids_Part"), gameObject.transform.position, gameObject.transform.rotation);
-                part.transform.localScale *= Vector2.one * Random.Range(1.5f, 2.5f);
+                case Asteroids.Big:
+                    part = Instantiate(Resources.Load<GameObject>("Prefabs/Asteroids_Part"), gameObject.transform.position, gameObject.transform.rotation);
+                    part.transform.localScale *= Vector2.one * Random.Range(1.5f, 2.5f);
+                    break;
+                case Asteroids.Midle:
+                    part = Instantiate(Resources.Load<GameObject>("Prefabs/Asteroids_Part"), gameObject.transform.position, gameObject.transform.rotation);
+                    part.transform.localScale *= Vector2.one * Random.Range(1.2f, 1.7f);
+                    break;
+                case Asteroids.Little:
+                    part = Instantiate(Resources.Load<GameObject>("Prefabs/Asteroids_Part"), gameObject.transform.position, gameObject.transform.rotation);
+                    part.transform.localScale *= Vector2.one * Random.Range(0.8f, 1.2f);
+                    break;
             }
-            else if (asteroid == Asteroids.Midle)
-            {
-                GameObject part = Instantiate(Resources.Load<GameObject>("Prefabs/Asteroids_Part"), gameObject.transform.position, gameObject.transform.rotation);
-                part.transform.localScale *= Vector2.one * Random.Range(1.2f, 1.7f);
-            }
-            else if (asteroid == Asteroids.Little)
-            {
-                GameObject part = Instantiate(Resources.Load<GameObject>("Prefabs/Asteroids_Part"), gameObject.transform.position, gameObject.transform.rotation);
-                part.transform.localScale *= Vector2.one * Random.Range(0.8f, 1.2f);
-            }
+
+
 
         }
 

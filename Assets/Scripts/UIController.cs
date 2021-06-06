@@ -33,40 +33,41 @@ public class UIController : MonoBehaviour
         scoreText.text = "score:" + gameController.GetScore();
         mainScore.text = "score:" + gameController.GetScore();
 
-        //Set condition canvases
-        if(gameController.GetGameCon() == GameController.GameCondition.Game)
+        switch (gameController.GetGameCon())
         {
-            Game.SetActive(true);
-            Restart.SetActive(false);
-            Pause.SetActive(false);
-            MainMenu.SetActive(false);
-            Time.timeScale = 1f;
-        }
-        else if (gameController.GetGameCon() == GameController.GameCondition.Restart)
-        {
-            Game.SetActive(false);
-            Restart.SetActive(true);
-            Pause.SetActive(false);
-            MainMenu.SetActive(false);
-            Time.timeScale = 1f;
-        }
-        else if (gameController.GetGameCon() == GameController.GameCondition.Pause)
-        {
-            Game.SetActive(false);
-            Restart.SetActive(false);
-            Pause.SetActive(true);
-            MainMenu.SetActive(false);
-            Time.timeScale = 0.0f;
+            case GameController.GameCondition.Game:
+                Game.SetActive(true);
+                Restart.SetActive(false);
+                Pause.SetActive(false);
+                MainMenu.SetActive(false);
+                Time.timeScale = 1f;
+                break;
+            case GameController.GameCondition.Restart:
+                Game.SetActive(false);
+                Restart.SetActive(true);
+                Pause.SetActive(false);
+                MainMenu.SetActive(false);
+                Time.timeScale = 1f;
+                break;
+            case GameController.GameCondition.Pause:
+                Game.SetActive(false);
+                Restart.SetActive(false);
+                Pause.SetActive(true);
+                MainMenu.SetActive(false);
+                Time.timeScale = 0.0f;
+                break;
+            case GameController.GameCondition.MainMenu:
+                Game.SetActive(false);
+                Restart.SetActive(false);
+                Pause.SetActive(false);
+                MainMenu.SetActive(true);
+                Time.timeScale = 1f;
+                break;
 
         }
-        else if (gameController.GetGameCon() == GameController.GameCondition.MainMenu)
-        {
-            Game.SetActive(false);
-            Restart.SetActive(false);
-            Pause.SetActive(false);
-            MainMenu.SetActive(true);
-            Time.timeScale = 1f;
-        }
+
+        //Set condition canvases
+       
     }
 
     public void SetPause()
